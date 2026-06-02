@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EN | 건축사사무소 이엔</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --red: #b51f0b;
+    --red-dark: #8a1708;
+    --black: #0e0e0e;
+    --white: #f8f7f4;
+    --gray: #6b6b6b;
+    --gray-light: #e4e2dd;
+    --t: 0.3s ease;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', 'Noto Sans KR', sans-serif; background: var(--white); color: var(--black); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 4rem;
+    transition: background var(--t), padding var(--t), box-shadow var(--t);
+  }
+  nav.scrolled {
+    background: rgba(248,247,244,0.96); backdrop-filter: blur(10px);
+    padding: 1rem 4rem; box-shadow: 0 1px 0 var(--gray-light);
+  }
+  .nav-logo img { height: 36px; display: block; }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--black); text-decoration: none;
+    transition: color var(--t);
+  }
+  .nav-links a:hover { color: var(--red); }
+
+  /* HERO */
+  #hero {
+    height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
+    position: relative; overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 4rem 6rem; background: var(--white); position: relative; z-index: 2;
+  }
+  .hero-eyebrow {
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.3em;
+    text-transform: uppercase; color: var(--red); margin-bottom: 1.5rem;
+    display: flex; align-items: center; gap: 0.75rem;
+  }
+  .hero-eyebrow::before { content: ''; width: 2rem; height: 1px; background: var(--red); display: block; }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4.5rem, 7.5vw, 9rem);
+    line-height: 0.92; letter-spacing: 0.02em; color: var(--black); margin-bottom: 2rem;
+  }
+  .hero-title .accent { color: var(--red); }
+  .hero-desc {
+    font-size: 1rem; font-weight: 300; line-height: 1.85;
+    color: var(--gray); max-width: 360px; margin-bottom: 3rem;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    padding: 1rem 2rem; background: var(--red); color: #fff;
+    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.18em;
+    text-transform: uppercase; text-decoration: none; border: none;
+    cursor: pointer; transition: background var(--t), gap var(--t);
+  }
+  .btn-primary:hover { background: var(--red-dark); gap: 1.2rem; }
+  .btn-primary svg { flex-shrink: 0; transition: transform var(--t); }
+  .btn-primary:hover svg { transform: translateX(4px); }
+
+  .hero-right { position: relative; overflow: hidden; }
+  .hero-right img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: grayscale(15%) contrast(1.05);
+    transition: transform 8s ease;
+  }
+  .hero-right:hover img { transform: scale(1.03); }
+  .hero-right-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, rgba(14,14,14,0.25) 0%, transparent 50%);
+  }
+  .hero-tag {
+    position: absolute; bottom: 2.5rem; left: 2rem;
+    background: var(--red); color: #fff;
+    font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em;
+    text-transform: uppercase; padding: 0.5rem 1rem;
+  }
+
+  /* SECTION COMMONS */
+  section { padding: 8rem 4rem; }
+  .s-label {
+    font-size: 0.65rem; font-weight: 500; letter-spacing: 0.35em;
+    text-transform: uppercase; color: var(--red);
+    display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;
+  }
+  .s-label::before { content: ''; width: 2rem; height: 1px; background: var(--red); display: block; }
+
+  /* ABOUT */
+  #about {
+    background: var(--black); color: var(--white);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+  }
+  #about .s-label { color: #b51f0b; }
+  #about .s-label::before { background: #b51f0b; }
+  .about-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    line-height: 1; letter-spacing: 0.02em; margin-bottom: 2rem;
+  }
+  .about-body {
+    font-weight: 300; line-height: 1.95;
+    color: rgba(248,247,244,0.65); margin-bottom: 3rem; font-size: 1rem;
+  }
+  .about-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
+    border-top: 1px solid rgba(248,247,244,0.1); padding-top: 2rem;
+  }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--red); line-height: 1; }
+  .stat-label { font-size: 0.7rem; letter-spacing: 0.12em; color: rgba(248,247,244,0.4); margin-top: 0.3rem; text-transform: uppercase; }
+
+  /* ABOUT GALLERY — 2 images stacked */
+  .about-gallery { display: flex; flex-direction: column; gap: 1.5rem; }
+  .about-img-main { width: 100%; aspect-ratio: 16/10; overflow: hidden; position: relative; }
+  .about-img-main img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(10%); transition: transform 0.6s ease; }
+  .about-img-main:hover img { transform: scale(1.03); }
+  .about-img-sub { width: 70%; margin-left: auto; aspect-ratio: 4/3; overflow: hidden; position: relative; border: 2px solid var(--red); }
+  .about-img-sub img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(10%); }
+
+  /* SERVICES */
+  #services { background: var(--white); }
+  .services-header {
+    display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5rem;
+  }
+  .services-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 5vw, 5.5rem); line-height: 1; letter-spacing: 0.02em;
+  }
+  .services-desc { max-width: 300px; font-weight: 300; line-height: 1.8; color: var(--gray); font-size: 0.9rem; }
+  .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--gray-light); }
+  .service-item {
+    padding: 2.5rem 1.75rem; border-right: 1px solid var(--gray-light);
+    position: relative; overflow: hidden; transition: background var(--t); cursor: default;
+  }
+  .service-item:last-child { border-right: none; }
+  .service-item::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px; background: var(--red); transition: width 0.45s ease;
+  }
+  .service-item:hover::after { width: 100%; }
+  .service-item:hover { background: rgba(181,31,11,0.03); }
+  .svc-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 3rem;
+    color: var(--gray-light); line-height: 1; margin-bottom: 1.5rem; transition: color var(--t);
+  }
+  .service-item:hover .svc-num { color: rgba(181,31,11,0.25); }
+  .svc-name { font-weight: 500; font-size: 1rem; margin-bottom: 1rem; letter-spacing: -0.01em; }
+  .svc-text { font-size: 0.83rem; font-weight: 300; line-height: 1.85; color: var(--gray); }
+
+  /* WORK / PORTFOLIO */
+  #work { background: #111; padding: 8rem 4rem; }
+  #work .s-label { color: var(--red); }
+  #work .s-label::before { background: var(--red); }
+  .work-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; }
+  .work-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 5vw, 5.5rem); line-height: 1; color: var(--white); letter-spacing: 0.02em;
+  }
+  .work-subtitle { max-width: 280px; font-weight: 300; line-height: 1.8; color: rgba(248,247,244,0.45); font-size: 0.9rem; }
+
+  /* Main big image */
+  .work-featured {
+    width: 100%; aspect-ratio: 21/9; overflow: hidden; margin-bottom: 1.5rem;
+    position: relative; cursor: pointer;
+  }
+  .work-featured img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center top;
+    filter: grayscale(5%); transition: transform 0.7s ease;
+  }
+  .work-featured:hover img { transform: scale(1.02); }
+  .work-featured-label {
+    position: absolute; bottom: 1.5rem; left: 2rem;
+    font-size: 0.65rem; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase;
+    color: rgba(255,255,255,0.7); background: rgba(0,0,0,0.5); padding: 0.4rem 0.8rem;
+  }
+
+  /* 4-image grid */
+  .work-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+  .work-item { position: relative; overflow: hidden; cursor: pointer; }
+  .work-item img {
+    width: 100%; aspect-ratio: 4/3; object-fit: cover; object-position: center top;
+    display: block; filter: grayscale(10%); transition: transform 0.6s ease, filter 0.4s ease;
+  }
+  .work-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
+  .work-item-info {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 1.5rem 1.25rem 1.25rem;
+    background: linear-gradient(transparent, rgba(0,0,0,0.75));
+    opacity: 0; transform: translateY(6px); transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .work-item:hover .work-item-info { opacity: 1; transform: translateY(0); }
+  .work-item-title { font-size: 0.8rem; font-weight: 500; color: #fff; letter-spacing: 0.05em; }
+  .work-item-type { font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-top: 0.2rem; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* LIGHTBOX */
+  .lightbox {
+    display: none; position: fixed; inset: 0; z-index: 999;
+    background: rgba(0,0,0,0.93); align-items: center; justify-content: center;
+  }
+  .lightbox.active { display: flex; }
+  .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; }
+  .lightbox-close {
+    position: absolute; top: 2rem; right: 2.5rem;
+    background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; line-height: 1;
+    opacity: 0.7; transition: opacity var(--t);
+  }
+  .lightbox-close:hover { opacity: 1; }
+  .lightbox-caption {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* CONTACT */
+  #contact { background: var(--black); display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+  #contact .s-label { color: var(--red); }
+  #contact .s-label::before { background: var(--red); }
+  .contact-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 5vw, 5.5rem); line-height: 1; color: var(--white); letter-spacing: 0.02em; margin-bottom: 1.5rem;
+  }
+  .contact-sub { font-weight: 300; line-height: 1.8; color: rgba(248,247,244,0.45); margin-bottom: 3rem; }
+  .contact-list { list-style: none; display: flex; flex-direction: column; gap: 1.5rem; }
+  .contact-list li { display: flex; gap: 1.5rem; align-items: flex-start; }
+  .ci-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); min-width: 64px; padding-top: 0.15rem; }
+  .ci-value { font-size: 0.95rem; font-weight: 300; color: rgba(248,247,244,0.75); line-height: 1.7; }
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+  .form-group label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(248,247,244,0.4); }
+  .form-group input, .form-group textarea {
+    background: rgba(248,247,244,0.05); border: 1px solid rgba(248,247,244,0.12);
+    color: var(--white); padding: 0.85rem 1.1rem; font-family: inherit;
+    font-size: 0.9rem; font-weight: 300; outline: none; resize: none;
+    transition: border-color var(--t);
+  }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--red); }
+  .form-group textarea { height: 110px; }
+  .form-submit {
+    align-self: flex-start; margin-top: 0.5rem;
+    padding: 1rem 2.5rem; background: var(--red); color: #fff;
+    font-family: inherit; font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    border: none; cursor: pointer; transition: background var(--t);
+  }
+  .form-submit:hover { background: var(--red-dark); }
+
+  /* FOOTER */
+  footer {
+    background: var(--black); border-top: 1px solid rgba(248,247,244,0.07);
+    padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo img { height: 28px; display: block; }
+  .footer-copy { font-size: 0.72rem; color: rgba(248,247,244,0.25); letter-spacing: 0.05em; }
+
+  /* ANIMATIONS */
+  .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.75s ease, transform 0.75s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+  /* MOBILE */
+  @media (max-width: 900px) {
+    nav, nav.scrolled { padding: 1.25rem 1.5rem; }
+    #hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 0 1.5rem 5rem; min-height: 100vh; justify-content: flex-end; }
+    .hero-right { display: none; }
+    section { padding: 5rem 1.5rem; }
+    #about, #contact { grid-template-columns: 1fr; gap: 3rem; }
+    .services-header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+    .services-grid { grid-template-columns: 1fr 1fr; }
+    .service-item { border-bottom: 1px solid var(--gray-light); }
+    .work-grid { grid-template-columns: 1fr 1fr; }
+    .work-featured { aspect-ratio: 4/3; }
+    footer { flex-direction: column; gap: 1rem; padding: 1.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo"><img src="en.png" alt="건축사사무소 이엔 로고"></a>
+  <ul class="nav-links">
+    <li><a href="#about">소개</a></li>
+    <li><a href="#services">서비스</a></li>
+    <li><a href="#work">프로젝트</a></li>
+    <li><a href="#contact">연락처</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">건축사사무소 이엔 · BIM Architecture</p>
+    <h1 class="hero-title">
+      BIM<br>건축<br><span class="accent">설계</span>
+    </h1>
+    <p class="hero-desc">정밀한 BIM 기술로 건축 설계의 새로운 기준을 제시합니다. 데이터 기반의 설계로 더 나은 공간을 만듭니다.</p>
+    <a href="#services" class="btn-primary">
+      서비스 보기
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </div>
+  <div class="hero-right">
+    <img src="구조1.png" alt="BIM 구조 모델">
+    <div class="hero-right-overlay"></div>
+    <div class="hero-tag">BIM Structural Model</div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="fade-up">
+    <p class="s-label">회사 소개</p>
+    <h2 class="about-title">정밀한<br>BIM 설계</h2>
+    <p class="about-body">건축사사무소 이엔은 BIM(Building Information Modeling) 전문 건축설계 사무소입니다. 최신 BIM 기술을 바탕으로 설계 품질과 정확성을 높이고, 프로젝트 전 과정에서 데이터 기반의 의사결정을 지원합니다.</p>
+    <div class="about-stats">
+      <div>
+        <div class="stat-num">BIM</div>
+        <div class="stat-label">전문 설계</div>
+      </div>
+      <div>
+        <div class="stat-num">4+</div>
+        <div class="stat-label">핵심 서비스</div>
+      </div>
+      <div>
+        <div class="stat-num">대구</div>
+        <div class="stat-label">기반 사무소</div>
+      </div>
+    </div>
+  </div>
+  <div class="about-gallery fade-up">
+    <div class="about-img-main">
+      <img src="영역분류.png" alt="BIM 영역분류 모델">
+    </div>
+    <div class="about-img-sub">
+      <img src="구조1.png" alt="BIM 구조 모델">
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header fade-up">
+    <div>
+      <p class="s-label">서비스</p>
+      <h2 class="services-title">제공<br>서비스</h2>
+    </div>
+    <p class="services-desc">BIM 기반의 전문적인 건축 서비스로 프로젝트의 정확성과 효율성을 높여드립니다.</p>
+  </div>
+  <div class="services-grid">
+    <div class="service-item fade-up">
+      <div class="svc-num">01</div>
+      <h3 class="svc-name">BIM 모델링</h3>
+      <p class="svc-text">Revit 기반 3D 건축 모델링으로 설계 의도를 정밀하게 구현합니다.</p>
+    </div>
+    <div class="service-item fade-up">
+      <div class="svc-num">02</div>
+      <h3 class="svc-name">설계 자문</h3>
+      <p class="svc-text">BIM 데이터 기반의 전문적인 설계 자문으로 프로젝트 전 과정을 지원합니다.</p>
+    </div>
+    <div class="service-item fade-up">
+      <div class="svc-num">03</div>
+      <h3 class="svc-name">공사비 산출</h3>
+      <p class="svc-text">BIM 모델에서 직접 추출한 데이터로 정확한 공사비를 산출합니다.</p>
+    </div>
+    <div class="service-item fade-up">
+      <div class="svc-num">04</div>
+      <h3 class="svc-name">수량 산출</h3>
+      <p class="svc-text">모델 기반 자동화 수량 산출로 오차를 최소화하고 효율을 극대화합니다.</p>
+    </div>
+  </div>
+</section>
+
+<!-- WORK / PORTFOLIO -->
+<section id="work">
+  <div class="work-header fade-up">
+    <div>
+      <p class="s-label">프로젝트</p>
+      <h2 class="work-title">BIM<br>도면</h2>
+    </div>
+    <p class="work-subtitle">실제 프로젝트에서 생성된 BIM 도면 및 모델 자료입니다.</p>
+  </div>
+
+  <!-- Featured big image -->
+  <div class="work-featured fade-up" onclick="openLightbox('횡단면도-6.png','횡단면도 S-16')">
+    <img src="횡단면도-6.png" alt="횡단면도 S-16">
+    <div class="work-featured-label">횡단면도 S-16 — 클릭하여 확대</div>
+  </div>
+
+  <!-- 4-grid -->
+  <div class="work-grid fade-up">
+    <div class="work-item" onclick="openLightbox('횡단면도-7.png','횡단면도 S-17')">
+      <img src="횡단면도-7.png" alt="횡단면도 S-17">
+      <div class="work-item-info">
+        <div class="work-item-title">횡단면도 S-17</div>
+        <div class="work-item-type">Section Drawing</div>
+      </div>
+    </div>
+    <div class="work-item" onclick="openLightbox('단면도1.png','단면도')">
+      <img src="단면도1.png" alt="단면도">
+      <div class="work-item-info">
+        <div class="work-item-title">단면도</div>
+        <div class="work-item-type">Section Drawing</div>
+      </div>
+    </div>
+    <div class="work-item" onclick="openLightbox('부분_입단면도1.png','부분 입단면도')">
+      <img src="부분_입단면도1.png" alt="부분 입단면도">
+      <div class="work-item-info">
+        <div class="work-item-title">부분 입단면도</div>
+        <div class="work-item-type">Detail Section</div>
+      </div>
+    </div>
+    <div class="work-item" onclick="openLightbox('영역분류.png','BIM 영역분류 모델')">
+      <img src="영역분류.png" alt="영역분류">
+      <div class="work-item-info">
+        <div class="work-item-title">영역분류 모델</div>
+        <div class="work-item-type">BIM 3D Model</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="fade-up">
+    <p class="s-label">연락처</p>
+    <h2 class="contact-title">문의<br>하기</h2>
+    <p class="contact-sub">프로젝트에 대해 궁금한 점이 있으시면 언제든지 연락 주세요.</p>
+    <ul class="contact-list">
+      <li>
+        <span class="ci-label">Email</span>
+        <span class="ci-value">enasbf@gmail.com</span>
+      </li>
+      <li>
+        <span class="ci-label">주소</span>
+        <span class="ci-value">대구시 북구 신천동로 730-3</span>
+      </li>
+    </ul>
+  </div>
+  <div class="fade-up">
+    <form class="contact-form" onsubmit="handleSubmit(event)">
+      <div class="form-group">
+        <label for="name">이름</label>
+        <input type="text" id="name" placeholder="홍길동" required>
+      </div>
+      <div class="form-group">
+        <label for="email">이메일</label>
+        <input type="email" id="email" placeholder="email@example.com" required>
+      </div>
+      <div class="form-group">
+        <label for="msg">문의 내용</label>
+        <textarea id="msg" placeholder="프로젝트에 대해 알려주세요." required></textarea>
+      </div>
+      <button type="submit" class="form-submit">문의 보내기</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#hero" class="footer-logo"><img src="en.png" alt="건축사사무소 이엔"></a>
+  <p class="footer-copy">© 2025 건축사사무소 이엔. All rights reserved.</p>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption" id="lightbox-cap"></div>
+</div>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
+
+  // Fade-up
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+
+  // Lightbox
+  function openLightbox(src, cap) {
+    document.getElementById('lightbox-img').src = src;
+    document.getElementById('lightbox-cap').textContent = cap;
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox(e) {
+    if (!e || e.target !== document.getElementById('lightbox-img')) {
+      document.getElementById('lightbox').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // Contact form
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = '전송 완료 ✓';
+    btn.style.background = '#2a7a2a';
+    setTimeout(() => { btn.textContent = '문의 보내기'; btn.style.background = ''; e.target.reset(); }, 3000);
+  }
+</script>
+</body>
+</html>
