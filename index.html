@@ -1,525 +1,363 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EN | 건축사사무소 이엔</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>건축사사무소 이엔 · EN Architects — BIM 건축설계</title>
+<meta name="description" content="BIM을 기준으로 설계하는 대구의 건축설계 사무소. BIM모델링, 설계자문, 공사비산출, 수량산출.">
+<meta property="og:title" content="건축사사무소 이엔 · EN Architects">
+<meta property="og:description" content="도면보다, 모델이 먼저입니다. BIM 건축설계 스튜디오.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ena101.com/">
+<meta name="theme-color" content="#0A0A09">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36' fill='none'%3E%3Crect width='36' height='36' fill='%230A0A09'/%3E%3Cpath d='M18 5 L5 12 L18 19 L31 12 Z M5 12 V25 L18 32 V19 M31 12 V25 L18 32' stroke='%23E8502A' stroke-width='2' stroke-linejoin='round'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+KR:wght@300;400;500&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --red: #b51f0b;
-    --red-dark: #8a1708;
-    --black: #0e0e0e;
-    --white: #f8f7f4;
-    --gray: #6b6b6b;
-    --gray-light: #e4e2dd;
-    --t: 0.3s ease;
-  }
-  html { scroll-behavior: smooth; }
-  body { font-family: 'DM Sans', 'Noto Sans KR', sans-serif; background: var(--white); color: var(--black); overflow-x: hidden; }
+:root{
+  --void:#0A0A09; --ink:#17150F; --bone:#F2EFE6; --red:#B51F0B; --ember:#E8502A; --maroon:#5B0F05;
+  --k:min(calc(100vw/1440), calc(100vh/780));
+  --ease:cubic-bezier(.4,0,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{word-break:keep-all;background:var(--void);color:var(--bone);font-family:'Noto Sans KR',sans-serif;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.mono{font-family:'IBM Plex Mono',monospace;font-weight:500;font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+.ember{color:var(--ember)}
+.pad{padding-left:80px;padding-right:80px}
 
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 1.5rem 4rem;
-    transition: background var(--t), padding var(--t), box-shadow var(--t);
-  }
-  nav.scrolled {
-    background: rgba(248,247,244,0.96); backdrop-filter: blur(10px);
-    padding: 1rem 4rem; box-shadow: 0 1px 0 var(--gray-light);
-  }
-  .nav-logo img { height: 36px; display: block; }
-  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-  .nav-links a {
-    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.18em;
-    text-transform: uppercase; color: var(--black); text-decoration: none;
-    transition: color var(--t);
-  }
-  .nav-links a:hover { color: var(--red); }
+/* cursor */
+@media (hover:hover) and (pointer:fine){
+  body{cursor:none} a,button{cursor:none}
+  .cur,.cur-ring{position:fixed;left:0;top:0;pointer-events:none;z-index:999;border-radius:50%;mix-blend-mode:difference}
+  .cur{width:6px;height:6px;background:#fff;margin:-3px 0 0 -3px}
+  .cur-ring{width:36px;height:36px;border:1px solid rgba(255,255,255,.7);margin:-18px 0 0 -18px;transition:width .3s var(--ease),height .3s var(--ease),margin .3s var(--ease),background .3s}
+  .cur-ring.big{width:72px;height:72px;margin:-36px 0 0 -36px;background:rgba(255,255,255,.12)}
+}
+@media (hover:none){.cur,.cur-ring{display:none}}
 
-  /* HERO */
-  #hero {
-    height: 100vh; display: grid; grid-template-columns: 1fr 1fr;
-    position: relative; overflow: hidden;
-  }
-  .hero-left {
-    display: flex; flex-direction: column; justify-content: flex-end;
-    padding: 0 4rem 6rem; background: var(--white); position: relative; z-index: 2;
-  }
-  .hero-eyebrow {
-    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.3em;
-    text-transform: uppercase; color: var(--red); margin-bottom: 1.5rem;
-    display: flex; align-items: center; gap: 0.75rem;
-  }
-  .hero-eyebrow::before { content: ''; width: 2rem; height: 1px; background: var(--red); display: block; }
-  .hero-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(4.5rem, 7.5vw, 9rem);
-    line-height: 0.92; letter-spacing: 0.02em; color: var(--black); margin-bottom: 2rem;
-  }
-  .hero-title .accent { color: var(--red); }
-  .hero-desc {
-    font-size: 1rem; font-weight: 300; line-height: 1.85;
-    color: var(--gray); max-width: 360px; margin-bottom: 3rem;
-  }
-  .btn-primary {
-    display: inline-flex; align-items: center; gap: 0.75rem;
-    padding: 1rem 2rem; background: var(--red); color: #fff;
-    font-size: 0.75rem; font-weight: 500; letter-spacing: 0.18em;
-    text-transform: uppercase; text-decoration: none; border: none;
-    cursor: pointer; transition: background var(--t), gap var(--t);
-  }
-  .btn-primary:hover { background: var(--red-dark); gap: 1.2rem; }
-  .btn-primary svg { flex-shrink: 0; transition: transform var(--t); }
-  .btn-primary:hover svg { transform: translateX(4px); }
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:22px 80px;transition:background .3s var(--ease),backdrop-filter .3s,padding .3s var(--ease)}
+nav.solid{background:rgba(10,10,9,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);padding-top:14px;padding-bottom:14px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:22px;letter-spacing:.04em}
+.logo svg{width:28px;height:28px}
+.logo b{color:var(--ember);font-weight:900}
+.menu{display:flex;gap:40px;font-size:14px}
+.menu a{opacity:.72;transition:opacity .3s}
+.menu a:hover{opacity:1}
+.menu a i{font-style:normal;font-family:'IBM Plex Mono',monospace;margin-right:6px;opacity:.7}
+.cta{border:1px solid rgba(242,239,230,.5);padding:9px 22px;font-size:13px;font-weight:700;transition:background .3s,color .3s}
+.cta:hover{background:var(--bone);color:var(--void)}
 
-  .hero-right { position: relative; overflow: hidden; }
-  .hero-right img {
-    width: 100%; height: 100%; object-fit: cover;
-    filter: grayscale(15%) contrast(1.05);
-    transition: transform 8s ease;
-  }
-  .hero-right:hover img { transform: scale(1.03); }
-  .hero-right-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(180deg, rgba(14,14,14,0.25) 0%, transparent 50%);
-  }
-  .hero-tag {
-    position: absolute; bottom: 2.5rem; left: 2rem;
-    background: var(--red); color: #fff;
-    font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em;
-    text-transform: uppercase; padding: 0.5rem 1rem;
-  }
+/* hero */
+.hero{position:relative;height:100vh;min-height:680px;overflow:hidden;background:var(--void)}
+.glow{position:absolute;inset:0;pointer-events:none;will-change:transform}
+.glow.g1{background:radial-gradient(ellipse calc(var(--k)*1100) calc(var(--k)*1000) at 72% 8%, rgba(181,31,11,.62), rgba(181,31,11,.0) 70%)}
+.blob{position:absolute;border-radius:50%;filter:blur(calc(var(--k)*90));will-change:transform;pointer-events:none}
+.b1{width:calc(var(--k)*440);height:calc(var(--k)*440);background:var(--red);opacity:.55;left:calc(50% - var(--k)*80);top:calc(var(--k)*-180)}
+.b2{width:calc(var(--k)*400);height:calc(var(--k)*400);background:var(--ember);opacity:.28;left:calc(50% + var(--k)*260);top:calc(var(--k)*260)}
+.b3{width:calc(var(--k)*440);height:calc(var(--k)*440);background:#5B0F05;opacity:.6;left:calc(50% - var(--k)*380);top:calc(var(--k)*400)}
+.stage{position:absolute;left:72%;top:50%;width:0;height:0;perspective:calc(var(--k)*1300);perspective-origin:50% 50%;pointer-events:none}
+.tilt{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d;will-change:transform}
+.ring{position:absolute;border:1px solid rgba(242,239,230,.18);border-radius:50%;transform-style:preserve-3d;left:0;top:0}
+.ring::after{content:"";position:absolute;inset:0;border-radius:50%}
+.spin{position:absolute;inset:0;border-radius:50%;transform-style:preserve-3d;animation:spin var(--d,120s) linear infinite}
+.spin.rev{animation-direction:reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.dot{position:absolute;width:3px;height:3px;margin:-1.5px 0 0 -1.5px;border-radius:50%;background:var(--bone);opacity:.55}
+.node{position:absolute;width:0;height:0}
+.node i{position:absolute;left:-6px;top:-6px;width:12px;height:12px;border-radius:50%;background:var(--ember);box-shadow:0 0 18px 4px rgba(232,80,42,.75)}
+.node span{position:absolute;left:18px;top:-9px;white-space:nowrap;color:rgba(242,239,230,.75);font-size:11px}
+.node.l span{left:auto;right:18px}
+.node{animation:spin var(--d,120s) linear infinite}
+.axis{position:absolute;background:rgba(242,239,230,.1)}
+.axis.h{height:1px;width:calc(var(--k)*1000);left:calc(var(--k)*-500);top:0}
+.axis.v{width:1px;height:calc(var(--k)*1000);top:calc(var(--k)*-500);left:0}
+.core{position:absolute;width:calc(var(--k)*230);height:calc(var(--k)*230);left:calc(var(--k)*-115);top:calc(var(--k)*-115);border-radius:50%;background:radial-gradient(circle,#fff6e8 0%,#ff9c6a 10%,#E8502A 28%,rgba(181,31,11,.6) 55%,rgba(181,31,11,0) 72%);filter:blur(4px);animation:pulse 4.5s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.08);opacity:.88}}
 
-  /* SECTION COMMONS */
-  section { padding: 8rem 4rem; }
-  .s-label {
-    font-size: 0.65rem; font-weight: 500; letter-spacing: 0.35em;
-    text-transform: uppercase; color: var(--red);
-    display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem;
-  }
-  .s-label::before { content: ''; width: 2rem; height: 1px; background: var(--red); display: block; }
+.copy{position:absolute;left:80px;bottom:calc(var(--k)*150);z-index:5;pointer-events:none;will-change:transform}
+.copy .mono{color:var(--ember);margin-bottom:22px;display:block}
+h1{font-weight:900;font-size:clamp(46px, calc(var(--k)*96), 120px);line-height:1.1;letter-spacing:-.04em}
+h1 em{font-style:normal;color:var(--ember)}
+.copy p{margin-top:28px;color:rgba(242,239,230,.62);font-size:18px;line-height:1.7;max-width:460px}
+.copy a{pointer-events:auto}
+.hero-bar{position:absolute;left:80px;right:80px;bottom:32px;display:flex;justify-content:space-between;color:rgba(242,239,230,.45);font-size:11px}
+.hero-bar .arrow{display:inline-block;animation:bob 1.8s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(4px)}}
 
-  /* ABOUT */
-  #about {
-    background: var(--black); color: var(--white);
-    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
-  }
-  #about .s-label { color: #b51f0b; }
-  #about .s-label::before { background: #b51f0b; }
-  .about-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 5vw, 5.5rem);
-    line-height: 1; letter-spacing: 0.02em; margin-bottom: 2rem;
-  }
-  .about-body {
-    font-weight: 300; line-height: 1.95;
-    color: rgba(248,247,244,0.65); margin-bottom: 3rem; font-size: 1rem;
-  }
-  .about-stats {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;
-    border-top: 1px solid rgba(248,247,244,0.1); padding-top: 2rem;
-  }
-  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--red); line-height: 1; }
-  .stat-label { font-size: 0.7rem; letter-spacing: 0.12em; color: rgba(248,247,244,0.4); margin-top: 0.3rem; text-transform: uppercase; }
+/* reveal */
+.rv{opacity:0;transform:translateY(32px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:var(--dl,0s)}
+.rv.in{opacity:1;transform:none}
+.line-in{opacity:0;transform:translateY(60px);animation:lineIn 1.1s var(--ease) forwards;animation-delay:var(--dl,0s)}
+@keyframes lineIn{to{opacity:1;transform:none}}
 
-  /* ABOUT GALLERY — 2 images stacked */
-  .about-gallery { display: flex; flex-direction: column; gap: 1.5rem; }
-  .about-img-main { width: 100%; aspect-ratio: 16/10; overflow: hidden; position: relative; }
-  .about-img-main img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(10%); transition: transform 0.6s ease; }
-  .about-img-main:hover img { transform: scale(1.03); }
-  .about-img-sub { width: 70%; margin-left: auto; aspect-ratio: 4/3; overflow: hidden; position: relative; border: 2px solid var(--red); }
-  .about-img-sub img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(10%); }
+/* sections */
+section{position:relative;padding:140px 80px}
+h2{font-weight:900;font-size:clamp(36px,5vw,72px);line-height:1.1;letter-spacing:-.04em}
+.label{color:var(--ember);display:block;margin-bottom:40px}
 
-  /* SERVICES */
-  #services { background: var(--white); }
-  .services-header {
-    display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 5rem;
-  }
-  .services-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 5vw, 5.5rem); line-height: 1; letter-spacing: 0.02em;
-  }
-  .services-desc { max-width: 300px; font-weight: 300; line-height: 1.8; color: var(--gray); font-size: 0.9rem; }
-  .services-grid { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--gray-light); }
-  .service-item {
-    padding: 2.5rem 1.75rem; border-right: 1px solid var(--gray-light);
-    position: relative; overflow: hidden; transition: background var(--t); cursor: default;
-  }
-  .service-item:last-child { border-right: none; }
-  .service-item::after {
-    content: ''; position: absolute; bottom: 0; left: 0;
-    width: 0; height: 2px; background: var(--red); transition: width 0.45s ease;
-  }
-  .service-item:hover::after { width: 100%; }
-  .service-item:hover { background: rgba(181,31,11,0.03); }
-  .svc-num {
-    font-family: 'Bebas Neue', sans-serif; font-size: 3rem;
-    color: var(--gray-light); line-height: 1; margin-bottom: 1.5rem; transition: color var(--t);
-  }
-  .service-item:hover .svc-num { color: rgba(181,31,11,0.25); }
-  .svc-name { font-weight: 500; font-size: 1rem; margin-bottom: 1rem; letter-spacing: -0.01em; }
-  .svc-text { font-size: 0.83rem; font-weight: 300; line-height: 1.85; color: var(--gray); }
+#about{background:var(--void)}
+.about-grid h2{font-size:clamp(34px,4.4vw,64px)}
+.about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:80px;align-items:start}
+.about-grid p.lead{font-size:20px;line-height:1.7;color:rgba(242,239,230,.72)}
+.pts{margin-top:40px;border-top:1px solid rgba(242,239,230,.14)}
+.pt{display:grid;grid-template-columns:48px 1fr;gap:12px;padding:26px 0;border-bottom:1px solid rgba(242,239,230,.14);transition:padding-left .4s var(--ease)}
+.pt:hover{padding-left:12px}
+.pt .mono{color:var(--ember);font-size:12px;padding-top:4px}
+.pt h3{font-size:20px;font-weight:700}
+.pt p{font-size:15px;color:rgba(242,239,230,.6);margin-top:4px}
 
-  /* WORK / PORTFOLIO */
-  #work { background: #111; padding: 8rem 4rem; }
-  #work .s-label { color: var(--red); }
-  #work .s-label::before { background: var(--red); }
-  .work-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 4rem; }
-  .work-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 5vw, 5.5rem); line-height: 1; color: var(--white); letter-spacing: 0.02em;
-  }
-  .work-subtitle { max-width: 280px; font-weight: 300; line-height: 1.8; color: rgba(248,247,244,0.45); font-size: 0.9rem; }
+#service{background:var(--ink)}
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);margin-top:64px;border-left:1px solid rgba(242,239,230,.14);perspective:1200px}
+.card{position:relative;min-height:320px;padding:32px 32px 40px;border:1px solid rgba(242,239,230,.14);border-left:0;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:transform .25s var(--ease),background .4s;transform-style:preserve-3d;will-change:transform}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(232,80,42,.28),rgba(232,80,42,0) 55%);opacity:0;transition:opacity .4s}
+.card:hover::before{opacity:1}
+.card .mono{color:var(--ember);position:relative}
+.card h3{font-weight:900;font-size:32px;letter-spacing:-.04em;position:relative}
+.card p{font-size:15px;color:rgba(242,239,230,.62);margin-top:12px;line-height:1.7;position:relative}
 
-  /* Main big image */
-  .work-featured {
-    width: 100%; aspect-ratio: 21/9; overflow: hidden; margin-bottom: 1.5rem;
-    position: relative; cursor: pointer;
-  }
-  .work-featured img {
-    width: 100%; height: 100%; object-fit: cover; object-position: center top;
-    filter: grayscale(5%); transition: transform 0.7s ease;
-  }
-  .work-featured:hover img { transform: scale(1.02); }
-  .work-featured-label {
-    position: absolute; bottom: 1.5rem; left: 2rem;
-    font-size: 0.65rem; font-weight: 500; letter-spacing: 0.25em; text-transform: uppercase;
-    color: rgba(255,255,255,0.7); background: rgba(0,0,0,0.5); padding: 0.4rem 0.8rem;
-  }
+#process{background:var(--void)}
+.track{position:relative;margin-top:72px}
+.rail{position:absolute;left:0;right:0;top:6px;height:1px;background:rgba(242,239,230,.2)}
+.rail b{position:absolute;left:0;top:0;height:1px;width:0;background:var(--ember);box-shadow:0 0 12px var(--ember);transition:width 1.6s var(--ease)}
+.steps{position:relative;display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+.step i{display:block;width:14px;height:14px;border-radius:50%;background:#3a352b;transition:background .5s,box-shadow .5s}
+.step.on i{background:var(--ember);box-shadow:0 0 18px 3px rgba(232,80,42,.8)}
+.step .mono{display:block;margin:34px 0 10px;color:var(--ember);font-size:11px}
+.step h3{font-weight:900;font-size:28px;letter-spacing:-.04em}
+.step p{font-size:15px;color:rgba(242,239,230,.62);margin-top:10px}
 
-  /* 4-image grid */
-  .work-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-  .work-item { position: relative; overflow: hidden; cursor: pointer; }
-  .work-item img {
-    width: 100%; aspect-ratio: 4/3; object-fit: cover; object-position: center top;
-    display: block; filter: grayscale(10%); transition: transform 0.6s ease, filter 0.4s ease;
-  }
-  .work-item:hover img { transform: scale(1.05); filter: grayscale(0%); }
-  .work-item-info {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    padding: 1.5rem 1.25rem 1.25rem;
-    background: linear-gradient(transparent, rgba(0,0,0,0.75));
-    opacity: 0; transform: translateY(6px); transition: opacity 0.35s ease, transform 0.35s ease;
-  }
-  .work-item:hover .work-item-info { opacity: 1; transform: translateY(0); }
-  .work-item-title { font-size: 0.8rem; font-weight: 500; color: #fff; letter-spacing: 0.05em; }
-  .work-item-type { font-size: 0.7rem; color: rgba(255,255,255,0.6); margin-top: 0.2rem; letter-spacing: 0.1em; text-transform: uppercase; }
+#contact{background:var(--red);overflow:hidden}
+#contact .label{color:var(--bone)}
+.big{font-weight:900;font-size:clamp(52px,8vw,128px);line-height:1.06;letter-spacing:-.05em;position:relative;z-index:2}
+.ctact{display:grid;grid-template-columns:1.3fr 1fr auto;gap:60px;align-items:end;margin-top:72px;position:relative;z-index:2}
+.ctact .mono{display:block;opacity:.7;font-size:11px;margin-bottom:10px}
+.mail{font-weight:700;font-size:clamp(24px,2.8vw,40px);letter-spacing:-.03em;border-bottom:2px solid transparent;transition:border-color .3s}
+.mail:hover{border-color:var(--bone)}
+.addr{font-weight:500;font-size:24px}
+.btn{display:inline-flex;align-items:center;gap:12px;background:var(--bone);color:var(--red);font-weight:700;padding:18px 32px;transition:transform .3s var(--ease),gap .3s}
+.btn:hover{gap:20px}
+.copybtn{background:none;border:0;color:inherit;font:inherit;margin-left:14px;font-size:12px;opacity:.7;text-decoration:underline;cursor:pointer}
+.ring-bg{position:absolute;right:-12vw;bottom:-22vw;width:60vw;height:60vw;border:1px solid rgba(242,239,230,.18);border-radius:50%;pointer-events:none;will-change:transform}
+.ring-bg::before,.ring-bg::after{content:"";position:absolute;border:1px solid rgba(242,239,230,.14);border-radius:50%}
+.ring-bg::before{inset:12%}.ring-bg::after{inset:26%}
 
-  /* LIGHTBOX */
-  .lightbox {
-    display: none; position: fixed; inset: 0; z-index: 999;
-    background: rgba(0,0,0,0.93); align-items: center; justify-content: center;
-  }
-  .lightbox.active { display: flex; }
-  .lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; }
-  .lightbox-close {
-    position: absolute; top: 2rem; right: 2.5rem;
-    background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; line-height: 1;
-    opacity: 0.7; transition: opacity var(--t);
-  }
-  .lightbox-close:hover { opacity: 1; }
-  .lightbox-caption {
-    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
-    font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase;
-    color: rgba(255,255,255,0.5);
-  }
+footer{display:flex;align-items:center;gap:24px;padding:40px 80px;background:var(--void);color:rgba(242,239,230,.5);font-size:11px}
+footer .logo{font-size:22px;color:var(--bone)}
+footer .grow{flex:1}
 
-  /* CONTACT */
-  #contact { background: var(--black); display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
-  #contact .s-label { color: var(--red); }
-  #contact .s-label::before { background: var(--red); }
-  .contact-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(3rem, 5vw, 5.5rem); line-height: 1; color: var(--white); letter-spacing: 0.02em; margin-bottom: 1.5rem;
-  }
-  .contact-sub { font-weight: 300; line-height: 1.8; color: rgba(248,247,244,0.45); margin-bottom: 3rem; }
-  .contact-list { list-style: none; display: flex; flex-direction: column; gap: 1.5rem; }
-  .contact-list li { display: flex; gap: 1.5rem; align-items: flex-start; }
-  .ci-label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); min-width: 64px; padding-top: 0.15rem; }
-  .ci-value { font-size: 0.95rem; font-weight: 300; color: rgba(248,247,244,0.75); line-height: 1.7; }
-  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
-  .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
-  .form-group label { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(248,247,244,0.4); }
-  .form-group input, .form-group textarea {
-    background: rgba(248,247,244,0.05); border: 1px solid rgba(248,247,244,0.12);
-    color: var(--white); padding: 0.85rem 1.1rem; font-family: inherit;
-    font-size: 0.9rem; font-weight: 300; outline: none; resize: none;
-    transition: border-color var(--t);
-  }
-  .form-group input:focus, .form-group textarea:focus { border-color: var(--red); }
-  .form-group textarea { height: 110px; }
-  .form-submit {
-    align-self: flex-start; margin-top: 0.5rem;
-    padding: 1rem 2.5rem; background: var(--red); color: #fff;
-    font-family: inherit; font-size: 0.75rem; font-weight: 500;
-    letter-spacing: 0.18em; text-transform: uppercase;
-    border: none; cursor: pointer; transition: background var(--t);
-  }
-  .form-submit:hover { background: var(--red-dark); }
-
-  /* FOOTER */
-  footer {
-    background: var(--black); border-top: 1px solid rgba(248,247,244,0.07);
-    padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center;
-  }
-  .footer-logo img { height: 28px; display: block; }
-  .footer-copy { font-size: 0.72rem; color: rgba(248,247,244,0.25); letter-spacing: 0.05em; }
-
-  /* ANIMATIONS */
-  .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.75s ease, transform 0.75s ease; }
-  .fade-up.visible { opacity: 1; transform: translateY(0); }
-
-  /* MOBILE */
-  @media (max-width: 900px) {
-    nav, nav.scrolled { padding: 1.25rem 1.5rem; }
-    #hero { grid-template-columns: 1fr; }
-    .hero-left { padding: 0 1.5rem 5rem; min-height: 100vh; justify-content: flex-end; }
-    .hero-right { display: none; }
-    section { padding: 5rem 1.5rem; }
-    #about, #contact { grid-template-columns: 1fr; gap: 3rem; }
-    .services-header { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
-    .services-grid { grid-template-columns: 1fr 1fr; }
-    .service-item { border-bottom: 1px solid var(--gray-light); }
-    .work-grid { grid-template-columns: 1fr 1fr; }
-    .work-featured { aspect-ratio: 4/3; }
-    footer { flex-direction: column; gap: 1rem; padding: 1.5rem; text-align: center; }
-  }
+/* responsive */
+@media (max-width:900px){
+  :root{--k:calc(100vw/1000)}
+  nav{padding:16px 24px}.menu{display:none}
+  section{padding:96px 24px}
+  .stage{left:56%;top:27%}
+  .node span{display:none}
+  .copy{left:24px;right:24px;bottom:110px}
+  .hero-bar{left:24px;right:24px}
+  .about-grid{grid-template-columns:1fr;gap:48px}
+  .sgrid{grid-template-columns:1fr 1fr}
+  .steps{grid-template-columns:1fr 1fr;row-gap:48px}
+  .rail{display:none}
+  .ctact{grid-template-columns:1fr;gap:36px}
+  footer{padding:32px 24px;flex-wrap:wrap}
+}
+@media (max-width:520px){.sgrid{grid-template-columns:1fr}.hero-bar span:last-child{display:none}}
+@media (prefers-reduced-motion:reduce){
+  .spin,.node,.core,.hero-bar .arrow{animation:none}
+  .rv,.line-in{opacity:1;transform:none;animation:none;transition:none}
+}
 </style>
 </head>
 <body>
+<div class="cur"></div><div class="cur-ring"></div>
 
-<!-- NAV -->
-<nav id="navbar">
-  <a href="#hero" class="nav-logo"><img src="en.png" alt="건축사사무소 이엔 로고"></a>
-  <ul class="nav-links">
-    <li><a href="#about">소개</a></li>
-    <li><a href="#services">서비스</a></li>
-    <li><a href="#work">프로젝트</a></li>
-    <li><a href="#contact">연락처</a></li>
-  </ul>
+<nav id="nav">
+  <a href="#top" class="logo" aria-label="EN Architects">
+    <svg viewBox="0 0 36 36" fill="none"><path d="M18 3 L3 11 L18 19 L33 11 Z" stroke="#E8502A" stroke-width="1.8" stroke-linejoin="round"/><path d="M3 11 V25 L18 33 V19" stroke="#F2EFE6" stroke-width="1.8" stroke-linejoin="round"/><path d="M33 11 V25 L18 33" stroke="#F2EFE6" stroke-width="1.8" stroke-linejoin="round" opacity=".5"/></svg>
+    <span>E<b>N</b></span>
+  </a>
+  <div class="menu">
+    <a href="#about"><i>01</i>소개</a><a href="#service"><i>02</i>서비스</a><a href="#process"><i>03</i>프로세스</a><a href="#contact"><i>04</i>연락처</a>
+  </div>
+  <a href="#contact" class="cta">문의하기</a>
 </nav>
 
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-left">
-    <p class="hero-eyebrow">건축사사무소 이엔 · BIM Architecture</p>
-    <h1 class="hero-title">
-      BIM<br>건축<br><span class="accent">설계</span>
+<header class="hero" id="top">
+  <div class="glow g1" data-d="14"></div>
+  <div class="blob b1" data-d="30"></div>
+  <div class="blob b2" data-d="46"></div>
+  <div class="blob b3" data-d="22"></div>
+
+  <div class="stage"><div class="tilt" id="tilt"></div></div>
+
+  <div class="copy" id="copy">
+    <span class="mono line-in" style="--dl:.1s">EN Architects — BIM Studio</span>
+    <h1>
+      <span class="line-in" style="display:block;--dl:.25s">도면보다,</span>
+      <span class="line-in" style="display:block;--dl:.4s"><em>모델이</em> 먼저입니다</span>
     </h1>
-    <p class="hero-desc">정밀한 BIM 기술로 건축 설계의 새로운 기준을 제시합니다. 데이터 기반의 설계로 더 나은 공간을 만듭니다.</p>
-    <a href="#services" class="btn-primary">
-      서비스 보기
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </a>
+    <p class="line-in" style="--dl:.6s">건축사사무소 이엔은 3차원 BIM 모델을 기준으로<br>모든 도면과 수량을 도출합니다.</p>
   </div>
-  <div class="hero-right">
-    <img src="구조1.png" alt="BIM 구조 모델">
-    <div class="hero-right-overlay"></div>
-    <div class="hero-tag">BIM Structural Model</div>
-  </div>
-</section>
+  <div class="hero-bar mono"><span>Scroll <span class="arrow">↓</span></span><span>Daegu, KR · 35.8714° N, 128.6014° E</span></div>
+</header>
 
-<!-- ABOUT -->
 <section id="about">
-  <div class="fade-up">
-    <p class="s-label">회사 소개</p>
-    <h2 class="about-title">정밀한<br>BIM 설계</h2>
-    <p class="about-body">건축사사무소 이엔은 BIM(Building Information Modeling) 전문 건축설계 사무소입니다. 최신 BIM 기술을 바탕으로 설계 품질과 정확성을 높이고, 프로젝트 전 과정에서 데이터 기반의 의사결정을 지원합니다.</p>
-    <div class="about-stats">
-      <div>
-        <div class="stat-num">BIM</div>
-        <div class="stat-label">전문 설계</div>
-      </div>
-      <div>
-        <div class="stat-num">4+</div>
-        <div class="stat-label">핵심 서비스</div>
-      </div>
-      <div>
-        <div class="stat-num">대구</div>
-        <div class="stat-label">기반 사무소</div>
-      </div>
-    </div>
-  </div>
-  <div class="about-gallery fade-up">
-    <div class="about-img-main">
-      <img src="영역분류.png" alt="BIM 영역분류 모델">
-    </div>
-    <div class="about-img-sub">
-      <img src="구조1.png" alt="BIM 구조 모델">
-    </div>
-  </div>
-</section>
-
-<!-- SERVICES -->
-<section id="services">
-  <div class="services-header fade-up">
-    <div>
-      <p class="s-label">서비스</p>
-      <h2 class="services-title">제공<br>서비스</h2>
-    </div>
-    <p class="services-desc">BIM 기반의 전문적인 건축 서비스로 프로젝트의 정확성과 효율성을 높여드립니다.</p>
-  </div>
-  <div class="services-grid">
-    <div class="service-item fade-up">
-      <div class="svc-num">01</div>
-      <h3 class="svc-name">BIM 모델링</h3>
-      <p class="svc-text">Revit 기반 3D 건축 모델링으로 설계 의도를 정밀하게 구현합니다.</p>
-    </div>
-    <div class="service-item fade-up">
-      <div class="svc-num">02</div>
-      <h3 class="svc-name">설계 자문</h3>
-      <p class="svc-text">BIM 데이터 기반의 전문적인 설계 자문으로 프로젝트 전 과정을 지원합니다.</p>
-    </div>
-    <div class="service-item fade-up">
-      <div class="svc-num">03</div>
-      <h3 class="svc-name">공사비 산출</h3>
-      <p class="svc-text">BIM 모델에서 직접 추출한 데이터로 정확한 공사비를 산출합니다.</p>
-    </div>
-    <div class="service-item fade-up">
-      <div class="svc-num">04</div>
-      <h3 class="svc-name">수량 산출</h3>
-      <p class="svc-text">모델 기반 자동화 수량 산출로 오차를 최소화하고 효율을 극대화합니다.</p>
-    </div>
-  </div>
-</section>
-
-<!-- WORK / PORTFOLIO -->
-<section id="work">
-  <div class="work-header fade-up">
-    <div>
-      <p class="s-label">프로젝트</p>
-      <h2 class="work-title">BIM<br>도면</h2>
-    </div>
-    <p class="work-subtitle">실제 프로젝트에서 생성된 BIM 도면 및 모델 자료입니다.</p>
-  </div>
-
-  <!-- Featured big image -->
-  <div class="work-featured fade-up" onclick="openLightbox('횡단면도-6.png','횡단면도 S-16')">
-    <img src="횡단면도-6.png" alt="횡단면도 S-16">
-    <div class="work-featured-label">횡단면도 S-16 — 클릭하여 확대</div>
-  </div>
-
-  <!-- 4-grid -->
-  <div class="work-grid fade-up">
-    <div class="work-item" onclick="openLightbox('횡단면도-7.png','횡단면도 S-17')">
-      <img src="횡단면도-7.png" alt="횡단면도 S-17">
-      <div class="work-item-info">
-        <div class="work-item-title">횡단면도 S-17</div>
-        <div class="work-item-type">Section Drawing</div>
-      </div>
-    </div>
-    <div class="work-item" onclick="openLightbox('단면도1.png','단면도')">
-      <img src="단면도1.png" alt="단면도">
-      <div class="work-item-info">
-        <div class="work-item-title">단면도</div>
-        <div class="work-item-type">Section Drawing</div>
-      </div>
-    </div>
-    <div class="work-item" onclick="openLightbox('부분_입단면도1.png','부분 입단면도')">
-      <img src="부분_입단면도1.png" alt="부분 입단면도">
-      <div class="work-item-info">
-        <div class="work-item-title">부분 입단면도</div>
-        <div class="work-item-type">Detail Section</div>
-      </div>
-    </div>
-    <div class="work-item" onclick="openLightbox('영역분류.png','BIM 영역분류 모델')">
-      <img src="영역분류.png" alt="영역분류">
-      <div class="work-item-info">
-        <div class="work-item-title">영역분류 모델</div>
-        <div class="work-item-type">BIM 3D Model</div>
+  <span class="label mono rv">01 — About</span>
+  <div class="about-grid">
+    <h2 class="rv"><span class="ember">하나의 모델</span>에서<br>모든 도면이 나옵니다</h2>
+    <div class="rv" style="--dl:.15s">
+      <p class="lead">건축사사무소 이엔은 BIM을 기준으로 설계하는 대구의 건축설계 사무소입니다. 도면, 물량, 공사비가 서로 어긋나지 않도록 하나의 3차원 모델에서 모든 것을 도출합니다.</p>
+      <div class="pts">
+        <div class="pt"><span class="mono">01</span><div><h3>단일 모델</h3><p>평면, 입면, 단면이 한 모델에서 나와 도면 간 불일치가 없습니다.</p></div></div>
+        <div class="pt"><span class="mono">02</span><div><h3>사전 검토</h3><p>시공 전에 간섭과 오류를 모델에서 먼저 찾아냅니다.</p></div></div>
+        <div class="pt"><span class="mono">03</span><div><h3>정량 근거</h3><p>수량과 공사비를 모델에서 바로 뽑아 근거를 남깁니다.</p></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
+<section id="service">
+  <span class="label mono rv">02 — Service</span>
+  <h2 class="rv">네 가지 일을, 정확하게</h2>
+  <div class="sgrid">
+    <article class="card rv"><span class="mono">S-01</span><div><h3>BIM모델링</h3><p>설계 단계부터 시공까지 쓰이는 정밀한 3차원 모델을 만듭니다.</p></div></article>
+    <article class="card rv" style="--dl:.08s"><span class="mono">S-02</span><div><h3>설계자문</h3><p>모델 기반으로 설계안을 검토하고 개선 방향을 제안합니다.</p></div></article>
+    <article class="card rv" style="--dl:.16s"><span class="mono">S-03</span><div><h3>공사비산출</h3><p>모델의 수량을 근거로 공사비를 투명하게 산출합니다.</p></div></article>
+    <article class="card rv" style="--dl:.24s"><span class="mono">S-04</span><div><h3>수량산출</h3><p>부재별, 공종별 수량을 모델에서 바로 추출합니다.</p></div></article>
+  </div>
+</section>
+
+<section id="process">
+  <span class="label mono rv">03 — Process</span>
+  <h2 class="rv">조사에서 산출까지,<br>하나로 이어집니다</h2>
+  <div class="track rv">
+    <div class="rail"><b id="rail"></b></div>
+    <div class="steps" id="steps">
+      <div class="step"><i></i><span class="mono">01 · Survey</span><h3>현황조사</h3><p>대지와 기존 조건을 정리합니다.</p></div>
+      <div class="step"><i></i><span class="mono">02 · Model</span><h3>모델링</h3><p>BIM 모델로 설계를 구체화합니다.</p></div>
+      <div class="step"><i></i><span class="mono">03 · Review</span><h3>검토</h3><p>간섭과 오류를 사전에 점검합니다.</p></div>
+      <div class="step"><i></i><span class="mono">04 · Extract</span><h3>산출</h3><p>도면, 수량, 공사비를 추출합니다.</p></div>
+    </div>
+  </div>
+</section>
+
 <section id="contact">
-  <div class="fade-up">
-    <p class="s-label">연락처</p>
-    <h2 class="contact-title">문의<br>하기</h2>
-    <p class="contact-sub">프로젝트에 대해 궁금한 점이 있으시면 언제든지 연락 주세요.</p>
-    <ul class="contact-list">
-      <li>
-        <span class="ci-label">Email</span>
-        <span class="ci-value">enasbf@gmail.com</span>
-      </li>
-      <li>
-        <span class="ci-label">주소</span>
-        <span class="ci-value">대구시 북구 신천동로 730-3</span>
-      </li>
-    </ul>
-  </div>
-  <div class="fade-up">
-    <form class="contact-form" onsubmit="handleSubmit(event)">
-      <div class="form-group">
-        <label for="name">이름</label>
-        <input type="text" id="name" placeholder="홍길동" required>
-      </div>
-      <div class="form-group">
-        <label for="email">이메일</label>
-        <input type="email" id="email" placeholder="email@example.com" required>
-      </div>
-      <div class="form-group">
-        <label for="msg">문의 내용</label>
-        <textarea id="msg" placeholder="프로젝트에 대해 알려주세요." required></textarea>
-      </div>
-      <button type="submit" class="form-submit">문의 보내기</button>
-    </form>
+  <div class="ring-bg" id="ringbg"></div>
+  <span class="label mono rv">04 — Contact</span>
+  <div class="big rv">프로젝트를<br>함께 시작하세요</div>
+  <div class="ctact rv">
+    <div><span class="mono">Email</span><a class="mail" href="mailto:enasbf@gmail.com">enasbf@gmail.com</a><button class="copybtn" id="copy-mail" type="button">복사</button></div>
+    <div><span class="mono">Office</span><div class="addr">대구시 북구 신천동로 730-3</div></div>
+    <a class="btn" href="mailto:enasbf@gmail.com">메일 보내기 <span>→</span></a>
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
-  <a href="#hero" class="footer-logo"><img src="en.png" alt="건축사사무소 이엔"></a>
-  <p class="footer-copy">© 2025 건축사사무소 이엔. All rights reserved.</p>
+  <a class="logo" href="#top">E<b>N</b></a>
+  <span class="mono grow">© 2026 건축사사무소 이엔 · EN Architects</span>
+  <span class="mono">Daegu, KR</span>
 </footer>
 
-<!-- LIGHTBOX -->
-<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
-  <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
-  <img id="lightbox-img" src="" alt="">
-  <div class="lightbox-caption" id="lightbox-cap"></div>
-</div>
-
 <script>
-  // Nav scroll
-  const nav = document.getElementById('navbar');
-  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
+(function(){
+  const $ = s => document.querySelector(s);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // Fade-up
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
-
-  // Lightbox
-  function openLightbox(src, cap) {
-    document.getElementById('lightbox-img').src = src;
-    document.getElementById('lightbox-cap').textContent = cap;
-    document.getElementById('lightbox').classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeLightbox(e) {
-    if (!e || e.target !== document.getElementById('lightbox-img')) {
-      document.getElementById('lightbox').classList.remove('active');
-      document.body.style.overflow = '';
+  /* ---------- build orbit system ---------- */
+  const tilt = $('#tilt');
+  let seed = 7; const rnd = () => (seed = (seed*1664525 + 1013904223) % 4294967296) / 4294967296;
+  const radii = [110,180,260,350,450], alphas=[.30,.24,.19,.15,.11], depths=[60,30,0,-30,-60], durs=[90,130,170,220,280];
+  const ax = document.createElement('div'); ax.className='axis h'; tilt.appendChild(ax);
+  const ay = document.createElement('div'); ay.className='axis v'; tilt.appendChild(ay);
+  const nodes = [
+    {r:180,a:-50,t:'01 · SURVEY'}, {r:260,a:15,t:'02 · MODEL'},
+    {r:350,a:128,t:'03 · REVIEW',l:true}, {r:450,a:205,t:'04 · EXTRACT',l:true}
+  ];
+  radii.forEach((R,i)=>{
+    const ring = document.createElement('div'); ring.className='ring';
+    const size = `calc(var(--k)*${R*2})`;
+    ring.style.cssText = `width:${size};height:${size};margin:calc(var(--k)*${-R}) 0 0 calc(var(--k)*${-R});border-color:rgba(242,239,230,${alphas[i]});transform:translateZ(${depths[i]}px)`;
+    const spin = document.createElement('div'); spin.className='spin' + (i%2?' rev':''); spin.style.setProperty('--d', durs[i]+'s');
+    for(let n=0;n<5+i*2;n++){
+      const d = document.createElement('div'); d.className='dot';
+      const a = rnd()*Math.PI*2; d.style.left = (50+50*Math.cos(a))+'%'; d.style.top=(50+50*Math.sin(a))+'%';
+      d.style.opacity = .3+rnd()*.5; spin.appendChild(d);
     }
-  }
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+    nodes.filter(n=>n.r===R).forEach(n=>{
+      const a = n.a*Math.PI/180;
+      const el = document.createElement('div'); el.className='node'+(n.l?' l':'');
+      el.style.left = (50+50*Math.cos(a))+'%'; el.style.top=(50+50*Math.sin(a))+'%';
+      el.style.setProperty('--d',durs[i]+'s'); el.style.animationDirection = (i%2?'normal':'reverse');
+      el.innerHTML = '<i></i><span class="mono">'+n.t+'</span>';
+      spin.appendChild(el);
+    });
+    ring.appendChild(spin); tilt.appendChild(ring);
+  });
+  const core = document.createElement('div'); core.className='core'; core.style.transform='translateZ(20px)'; tilt.appendChild(core);
 
-  // Contact form
-  function handleSubmit(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('.form-submit');
-    btn.textContent = '전송 완료 ✓';
-    btn.style.background = '#2a7a2a';
-    setTimeout(() => { btn.textContent = '문의 보내기'; btn.style.background = ''; e.target.reset(); }, 3000);
+  /* ---------- mouse-reactive 3D ---------- */
+  const layers = [...document.querySelectorAll('[data-d]')];
+  const copy = $('#copy'), ringbg = $('#ringbg');
+  let tx=0, ty=0, cx=0, cy=0;
+  addEventListener('pointermove', e=>{ tx = e.clientX/innerWidth - .5; ty = e.clientY/innerHeight - .5; }, {passive:true});
+  function loop(){
+    cx += (tx-cx)*.07; cy += (ty-cy)*.07;
+    tilt.style.transform = `rotateX(${(-cy*26).toFixed(2)}deg) rotateY(${(cx*34).toFixed(2)}deg)`;
+    layers.forEach(l=>{ const d = +l.dataset.d; l.style.transform = `translate3d(${(-cx*d*2).toFixed(1)}px,${(-cy*d*2).toFixed(1)}px,0)`; });
+    copy.style.transform = `translate3d(${(cx*-10).toFixed(1)}px,${(cy*-6).toFixed(1)}px,0)`;
+    requestAnimationFrame(loop);
   }
+  if(!reduce) loop();
+
+  /* ---------- cursor ---------- */
+  const cur = $('.cur'), ring = $('.cur-ring');
+  if(matchMedia('(hover:hover) and (pointer:fine)').matches){
+    let mx=-100,my=-100,rx=-100,ry=-100;
+    addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;cur.style.transform=`translate(${mx}px,${my}px)`;},{passive:true});
+    (function f(){ rx+=(mx-rx)*.18; ry+=(my-ry)*.18; ring.style.transform=`translate(${rx}px,${ry}px)`; requestAnimationFrame(f); })();
+    document.querySelectorAll('a,button,.card').forEach(el=>{
+      el.addEventListener('pointerenter',()=>ring.classList.add('big'));
+      el.addEventListener('pointerleave',()=>ring.classList.remove('big'));
+    });
+  }
+
+  /* ---------- nav ---------- */
+  const nav = $('#nav');
+  const onScroll = () => { nav.classList.toggle('solid', scrollY>40); if(ringbg){ ringbg.style.transform = `translateY(${(-(scrollY-ringbg.parentElement.offsetTop+innerHeight)*0.06).toFixed(1)}px)`; } };
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+
+  /* ---------- reveal ---------- */
+  const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }), {threshold:.15});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+  /* ---------- process rail ---------- */
+  const steps = [...document.querySelectorAll('.step')], rail = $('#rail');
+  const po = new IntersectionObserver(es=>{ if(es[0].isIntersecting){
+    steps.forEach((s,i)=>setTimeout(()=>{ s.classList.add('on'); rail.style.width = ((i+1)/steps.length*100 - (i===steps.length-1?0:0))+'%'; }, i*420));
+    po.disconnect(); } }, {threshold:.5});
+  po.observe($('#steps'));
+
+  /* ---------- service card tilt ---------- */
+  document.querySelectorAll('.card').forEach(c=>{
+    c.addEventListener('pointermove',e=>{
+      const r=c.getBoundingClientRect(), x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height;
+      c.style.setProperty('--mx',x*100+'%'); c.style.setProperty('--my',y*100+'%');
+      if(!reduce) c.style.transform=`perspective(800px) rotateY(${((x-.5)*8).toFixed(2)}deg) rotateX(${((.5-y)*8).toFixed(2)}deg)`;
+    });
+    c.addEventListener('pointerleave',()=>{ c.style.transform=''; });
+  });
+
+  /* ---------- copy email ---------- */
+  const cb = $('#copy-mail');
+  cb.addEventListener('click',()=>{
+    const done=()=>{ cb.textContent='복사됨'; setTimeout(()=>cb.textContent='복사',1600); };
+    if(navigator.clipboard) navigator.clipboard.writeText('enasbf@gmail.com').then(done).catch(done); else done();
+  });
+})();
 </script>
 </body>
 </html>
